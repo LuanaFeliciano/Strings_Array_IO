@@ -10,17 +10,23 @@ while (linha != null)
 {
 
     string[] dados = linha.Split("\t");
-    string valorParaConverter = dados[1].Trim().Replace("$", "");
-    string itensParaConverter = dados[2].Trim().Replace("|", "");
+    string valorParaConverter = dados[1].Replace("$", "").Replace(".", ",");
+    string itensParaConverter = dados[2].Replace("|", "");
 
-    decimal valor = Convert.ToDecimal(valorParaConverter);
-    int itens = Convert.ToInt32(itensParaConverter);
 
-    totalItems +=  itens;
-    totalValor += itens * valor;
+    decimal valor = Decimal.Parse(valorParaConverter);
+    int itens = int.Parse(itensParaConverter);
+
+    totalItems += itens;
+    if (itens != 0)
+    {
+        totalValor += valor;
+    }
+
 
     linha = produtos.ReadLine();
+
 }
 
-Console.WriteLine("total de itens em estoque:" + totalItems);
-Console.WriteLine("valor total:" + totalValor.ToString("0.00"));
+Console.WriteLine("total de itens em estoque: " + totalItems);
+Console.WriteLine("valor total de todos os itens: " + totalValor.ToString("C"));
